@@ -1,29 +1,29 @@
 jobs:
-  - name: dataworks-repo-template-terraform-pr
+  - name: dataworks-aws-ipam-pr
     plan:
-      - get: dataworks-repo-template-terraform-pr
+      - get: dataworks-aws-ipam-pr
         trigger: true
         version: every
-      - put: dataworks-repo-template-terraform-pr
+      - put: dataworks-aws-ipam-pr
         params:
-          path: dataworks-repo-template-terraform-pr
+          path: dataworks-aws-ipam-pr
           status: pending
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
-          dataworks-repo-template-terraform: dataworks-repo-template-terraform-pr
+          dataworks-aws-ipam: dataworks-aws-ipam-pr
       - .: (( inject meta.plan.terraform-plan ))
         input_mapping:
-          dataworks-repo-template-terraform: dataworks-repo-template-terraform-pr
+          dataworks-aws-ipam: dataworks-aws-ipam-pr
         params:
           TF_WORKSPACE: "qa"
           DETAILED_EXITCODE: ""
         on_failure:
-          put: dataworks-repo-template-terraform-pr
+          put: dataworks-aws-ipam-pr
           params:
-            path: dataworks-repo-template-terraform-pr
+            path: dataworks-aws-ipam-pr
             status: failure
         on_success:
-          put: dataworks-repo-template-terraform-pr
+          put: dataworks-aws-ipam-pr
           params:
-            path: dataworks-repo-template-terraform-pr
+            path: dataworks-aws-ipam-pr
             status: success
