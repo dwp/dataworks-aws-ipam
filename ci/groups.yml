@@ -3,9 +3,27 @@ groups:
     jobs:
       - development
       - qa
+      - integration
+      - preprod
+      - production
   - name: pull-request
     jobs:
       - dataworks-aws-ipam-pr
   - name: update-pipeline
     jobs:
       - update-pipeline
+  - name: deprovision-development-ipam
+    jobs:
+      - deprovision-development-ipam
+  - name: deprovision-qa-ipam
+    jobs:
+      - deprovision-qa-ipam
+  - name: deprovision-integration-ipam
+    jobs:
+      - deprovision-integration-ipam
+  - name: deprovision-preprod-ipam
+    jobs:
+      - deprovision-preprod-ipam
+  - name: deprovision-production-ipam
+    jobs:    
+      - deprovision-production-ipam

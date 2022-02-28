@@ -21,8 +21,8 @@ meta:
           type: docker-image
           source:
             repository: dwpdigital/jinja-yaml-aws
-            version: 0.0.19
-            tag: 0.0.19
+            version: 0.0.17
+            tag: 0.0.17
         run:
           path: sh
           args:
@@ -74,4 +74,20 @@ meta:
           - name: terraform-bootstrap
       params:
         DETAILED_EXITCODE: -detailed-exitcode
-
+    terraform-destroy:
+          task: terraform-destroy
+          .: (( inject meta.plan.terraform-common-config ))
+          config:
+            run:
+              path: sh
+              args:
+                - -exc
+                - |
+                  cp ../terraform-bootstrap/terraform.tf .
+                  terraform workspace show
+                  terraform init
+                  terraform destroy -auto-approve terraform.plan
+              dir: dataworks-aws-ipam
+            inputs:
+              - name: dataworks-aws-ipam
+              - name: terraform-bootstrap

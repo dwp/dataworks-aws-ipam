@@ -1,14 +1,16 @@
 jobs:
-  - name: development
+  - name: production
     max_in_flight: 1
     plan:
       - get: dataworks-aws-ipam
         trigger: true
+        passed:
+          - preprod
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-apply ))
       - .: (( inject meta.plan.terraform-plan ))
         params:
-          TF_WORKSPACE: 'default'
+          TF_WORKSPACE: 'prod'
       - .: (( inject meta.plan.terraform-plan ))
         params:
-          TF_WORKSPACE: 'default'
+          TF_WORKSPACE: 'prod'
