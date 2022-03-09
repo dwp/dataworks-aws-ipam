@@ -29,7 +29,7 @@ resource "aws_vpc_ipam_pool_cidr" "dataworks_aws_ipam_global_pool_cidr" {
   cidr         = local.global_pool_cidr
 }
 
-# Rreate regional pools
+# Create regional pools
 resource "aws_vpc_ipam_pool" "dataworks_aws_ipam_regional_pool" {
   description         = "Dataworks AWS IPAM Regional Pool"
   address_family      = "ipv4"
