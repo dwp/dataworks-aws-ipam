@@ -8,7 +8,6 @@ jobs:
           - qa
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-apply ))
-      - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: 'integration'
       - .: (( inject meta.plan.terraform-plan ))

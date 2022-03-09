@@ -8,9 +8,8 @@ jobs:
           - preprod
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-apply ))
+        params:
+          TF_WORKSPACE: 'production'
       - .: (( inject meta.plan.terraform-plan ))
         params:
-          TF_WORKSPACE: 'prod'
-      - .: (( inject meta.plan.terraform-plan ))
-        params:
-          TF_WORKSPACE: 'prod'
+          TF_WORKSPACE: 'production'
