@@ -86,7 +86,7 @@ meta:
                   cp ../terraform-bootstrap/terraform.tf .
                   terraform workspace show
                   terraform init
-                  terraform destroy -auto-approve terraform.plan
+                  terraform destroy -auto-approve
               dir: dataworks-aws-ipam
             inputs:
               - name: dataworks-aws-ipam
