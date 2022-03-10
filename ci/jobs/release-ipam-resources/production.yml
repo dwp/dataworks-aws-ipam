@@ -26,22 +26,21 @@ jobs:
                 IPAM_POOL_ID=$(aws ec2 describe-ipam-pools --filters Name=locale,Values=eu-west-2 | jq -r '.IpamPools | .[] | .IpamPoolId')
                 PRIVATE_SCOPE_ID=$(aws ec2 describe-ipam-scopes | jq -r '.IpamScopes | .[]  | select(.IpamScopeType=="private") | .IpamScopeId')
                 ALLOCATIONS_CIDR=$(aws ec2 get-ipam-pool-allocations --ipam-pool-id  $IPAM_POOL_ID | jq -r '.[] | .[]  | "\(.Cidr) \(.ResourceId)"')
-                while IFS= read -r allocation; do \
-                  resource_cidr=$(echo $allocation | cut -d' ' -f1)
-                  resource_id=$(echo $allocation | cut -d' ' -f2)
-                  aws ec2 modify-ipam-resource-cidr \
-                    --resource-id $resource_id \
-                    --resource-cidr $resource_cidr \
-                    --resource-region $AWS_REGION \
-                    --current-ipam-scope-id $PRIVATE_SCOPE_ID \
-                    --no-monitored \
-                    --no-dry-run 
+                while IFS= read -r allocation; do
+                  if [ ! -z "$allocation" ]; then
+                    resource_cidr=$(echo $allocation | cut -d' ' -f1)
+                    resource_id=$(echo $allocation | cut -d' ' -f2)
+                    aws ec2 modify-ipam-resource-cidr \
+                      --resource-id $resource_id \
+                      --resource-cidr $resource_cidr \
+                      --resource-region $AWS_REGION \
+                      --current-ipam-scope-id $PRIVATE_SCOPE_ID \
+                      --no-monitored \
+                      --no-dry-run 
+                  fi  
                 done < <(printf '%s\n' "$ALLOCATIONS_CIDR")
 
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-destroy ))
-        params:
-            TF_WORKSPACE: 'production'
-      - .: (( inject meta.plan.terraform-plan ))
         params:
             TF_WORKSPACE: 'production'
