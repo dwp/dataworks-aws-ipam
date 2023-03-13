@@ -82,6 +82,7 @@ locals {
   }
 
   overridden_tags = {
+    Name         = "dataworks-aws-ipam"
     Role         = "repo_template_terraform"
     Owner        = "dataworks-aws-ipam"
     Persistence  = local.persistence_tag_value[local.environment]
