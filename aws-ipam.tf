@@ -1,8 +1,8 @@
-# # Create a service linked role
-# resource "aws_iam_service_linked_role" "dataworks_aws_ipam_service_linked_role" { # only required for single account IPAM.
-#   aws_service_name = "ipam.amazonaws.com"
-#   description      = "Service linked role for AWS VPC IP address manager"
-# }
+# Create a service linked role
+resource "aws_iam_service_linked_role" "dataworks_aws_ipam_service_linked_role" { # only required for single account IPAM.
+  aws_service_name = "ipam.amazonaws.com"
+  description      = "Service linked role for AWS VPC IP address manager"
+}
 
 # # Create IPAM resource, default scope is created and can be referenced from
 # resource "aws_vpc_ipam" "dataworks_aws_ipam" {
